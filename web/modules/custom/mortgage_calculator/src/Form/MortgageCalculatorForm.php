@@ -27,12 +27,14 @@ class MortgageCalculatorForm extends FormBase
             '#type' => 'number',
             '#title' => $this->t('Loan Amount'),
             '#required' => true,
+            '#step' => '0.01',
         ];
 
         $form['interest_rate'] = [
             '#type' => 'number',
             '#title' => $this->t('Interest Rate'),
             '#required' => true,
+            '#step' => '0.01',
         ];
 
         $form['loan_term'] = [
@@ -91,10 +93,19 @@ class MortgageCalculatorForm extends FormBase
 
     }
 
-    private function calculateMonthlyPayment(mixed $loan_amount, mixed $interest_rate, mixed $loan_term): float
+    function calculateMonthlyPayment($loan_amount, $interest_rate, $loan_term)
     {
-        $monthAmount = ($loan_amount / $loan_term) / 1200;
-        $interestRate = $interest_rate / 12;
-        return  $monthAmount + ($monthAmount * $interestRate);
+        $monthly_interest_rate = $interest_rate / 100 / 12;
+        $number_of_payments = $loan_term * 12;
+
+        if ($monthly_interest_rate > 0) {
+            $monthlyPayment = ($loan_amount * $monthly_interest_rate) / (1 - pow(1 + $monthly_interest_rate, -$number_of_payments));
+        } else {
+            $monthlyPayment = $loan_amount / $number_of_payments;
+        }
+
+
+        return $monthlyPayment;
+
     }
 }

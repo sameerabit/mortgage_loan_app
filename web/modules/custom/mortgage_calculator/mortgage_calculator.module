@@ -19,7 +19,15 @@ function calculate_monthly_payment($loan_amount, $interest_rate, $loan_term)
     $monthly_interest_rate = $interest_rate / 100 / 12;
     $number_of_payments = $loan_term * 12;
 
-    return $loan_amount * $monthly_interest_rate / (1 - (1 + $monthly_interest_rate) ** (-$number_of_payments));
+    $monthlyPayment = 0;
+
+    if ($monthly_interest_rate > 0) {
+        $monthlyPayment = ($loan_amount * $monthly_interest_rate) / (1 - pow(1 + $monthly_interest_rate, -$number_of_payments));
+    } else {
+        $monthlyPayment = $loan_amount / $number_of_payments;
+    }
+
+    return $monthlyPayment;
 
 }
 
