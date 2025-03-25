@@ -1,0 +1,13 @@
+name: "Stripe's Webform Integration"
+type: module
+description: "Provides a stripe webform element and default handlers"
+core_version_requirement: ^10 || ^11
+package: Stripe
+dependencies:
+  - stripe:stripe (>=2.0.0)
+  - webform:webform
+
+# Information added by Drupal.org packaging script on 2024-11-29
+version: '2.0.0'
+project: 'stripe_webform'
+datestamp: 1732912206

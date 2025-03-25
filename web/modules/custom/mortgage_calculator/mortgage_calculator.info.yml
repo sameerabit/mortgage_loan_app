@@ -1,0 +1,6 @@
+name: 'Mortgage Calculator'
+type: module
+description: 'Provides a mortgage calculation form.'
+core_version_requirement: ^11
+package: Custom
+version: 1.0

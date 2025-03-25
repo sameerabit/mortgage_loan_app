@@ -1,0 +1,7 @@
+mortgage_calculator.form:
+  path: '/mortgage-calculator'
+  defaults:
+    _form: '\Drupal\mortgage_calculator\Form\MortgageCalculatorForm'
+    _title: 'Mortgage Calculator'
+  requirements:
+    _permission: 'access content'

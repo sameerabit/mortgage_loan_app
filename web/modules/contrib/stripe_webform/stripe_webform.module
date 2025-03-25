@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Provides a Stripe webform element and handler.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function stripe_webform_theme(): array {
+  return [
+    'webform_handler_stripe_summary' => [
+      'variables' => ['settings' => NULL, 'handler' => []],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds a warning about using wizard webforms.
+ */
+function stripe_webform_form_webform_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $webform = $form_state->getFormObject()->getEntity();
+
+  if ($webform->hasWizardPages()) {
+    \Drupal::messenger()->addWarning(t('While stripe elements should work with wizard-like webforms, because the actual charge happens on the client side, the process can be very prone to user errors when moving across pages and using the browser navigation buttons. It is <b><u>strongly recommend not</u></b>  to use this feature.'));
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Disables AJAX on webforms, as it doesn't work nicely with the current stripe
+ * implementation.
+ */
+function stripe_webform_form_webform_settings_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $webform = $form_state->getFormObject()->getEntity();
+
+  $elements = $webform->getElementsInitializedAndFlattened();
+  $stripe = FALSE;
+  foreach ($elements as $key => $element) {
+    if (in_array($element['#type'], ['stripe', 'stripe_paymentrequest'])) {
+      $stripe = TRUE;
+      break;
+    }
+  }
+
+  if ($stripe) {
+    $form['ajax_settings']['warning'] = [
+      '#markup' => '<div class="messages messages--warning">AJAX is not supported when using stripe elements.</div>',
+      '#weight' => -100,
+    ];
+    $form['ajax_settings']['ajax']['#disabled'] = TRUE;
+    $form['ajax_settings']['ajax']['#default_value'] = 0;
+  }
+}

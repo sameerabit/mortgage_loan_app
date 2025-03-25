@@ -1,0 +1,7 @@
+mortgage_calculator.dashboard:
+  path: '/admin/mortgage/dashboard'
+  defaults:
+    _controller: '\Drupal\mortgage_loan\Controller\DashboardController::dashboard'
+    _title: 'Mortgage Dashboard'
+  requirements:
+    _permission: 'access content'

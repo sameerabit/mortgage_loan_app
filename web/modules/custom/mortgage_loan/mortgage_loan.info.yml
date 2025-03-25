@@ -1,0 +1,6 @@
+name: 'Mortgage Loan'
+type: module
+description: 'Provides a mortgage loan app'
+core_version_requirement: ^11
+package: Custom
+version: 1.0

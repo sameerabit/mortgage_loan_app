@@ -1,0 +1,25 @@
+<?php
+
+use Drupal\Node\Entity\Node;
+
+function mortgage_calculator_entity_presave(\Drupal\Core\Entity\EntityInterface $entity){
+    if($entity->getEntityTypeId() == 'node' && $entity->bundle() == 'mortgage_loan'){
+        $loan_amount = $entity->get('field_loan_amount')->value;
+        $interest_rate = $entity->get('field_interest_rate')->value;
+        $loan_term = $entity->get('field_terms_in_years')->value;
+
+        $monthly_payment = calculate_monthly_payment($loan_amount, $interest_rate, $loan_term);
+
+        $entity->set('field_monthly_payment', $monthly_payment);
+    }
+}
+
+function calculate_monthly_payment($loan_amount, $interest_rate, $loan_term)
+{
+    $monthly_interest_rate = $interest_rate / 100 / 12;
+    $number_of_payments = $loan_term * 12;
+
+    return $loan_amount * $monthly_interest_rate / (1 - (1 + $monthly_interest_rate) ** (-$number_of_payments));
+
+}
+

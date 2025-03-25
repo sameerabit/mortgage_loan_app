@@ -1,0 +1,17 @@
+{
+  "name": "drupal/stripe_webform",
+  "type": "drupal-module",
+  "description": "Stripe Webform",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/stripe_webform",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/stripe_webform",
+    "source": "http://cgit.drupalcode.org/stripe_webform"
+  },
+  "require": {
+    "drupal/stripe": "^2.0",
+    "drupal/webform": "^6.3@alpha"
+  }
+}
